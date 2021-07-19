@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>Registrar participación</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h:form id="menu">
+            <p:panelGrid columns="3" layout="grid" styleClass="showcase-text-align-center"
+                         columnClasses="p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3">
+                <p:graphicImage name="images/LogoVGSoft.png" style="align-items: center"/>
+                <p:tabMenu activeIndex="#{param.i}">
+                    <p:menuitem value="Inicio" outcome="/ui/menu/tabMenu" icon="pi pi-fw pi-home" url="/H21_02_SW/faces/index.xhtml">
+                        <f:param name="i" value="0"/>
+                    </p:menuitem>
+                    <p:menuitem value="Participante" outcome="/ui/menu/tabMenu" icon="pi pi-fw pi-file"  url="/H21_02_SW/faces/vistas/ParticipanteVista.xhtml">
+                        <f:param name="i" value="1"/>
+                    </p:menuitem>
+                    <p:menuitem value="Registro" icon="pi pi-fw pi-calendar">
+                        <f:param name="i" value="2"/>
+                    </p:menuitem>
+                </p:tabMenu>
+            </p:panelGrid>
+        </h:form>
+
+
+
+        <h:form id="RegPar">
+            <p:growl widgetVar="msgs"/>
+
+            <p:panel id="pnlVent" header="Registro de participación" footer="Seleccione el bloque en el que desea participar"
+                     styleClass="my-heading-row ui-fluid ui-grid-responsive">
+                <f:facet name="actions">
+                    <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
+                        <h:outputText styleClass="ui-icon pi pi-question"/>
+                    </p:commandLink>
+                </f:facet>
+                <h:panelGrid columns="4" width="100%" id="pnlCabecera" styleClass="customPanelGrid"
+                             columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4">
+                    <p:outputLabel value="Participante: "/>
+                    <p:selectOneMenu id="txtCODPAR" value="#{registrarBean.model.CODPAR}" required="true">
+                        <f:selectItem noSelectionOption="true" itemLabel="Seleccione un participante"/>
+                        <f:selectItems value="#{participanteBean.listPar}" var="par" itemValue="#{par.CODPAR}" itemLabel="#{par.APEPAR}, #{par.NOMPAR}"/>
+                        <p:message for="txtCODPAR"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="txtCERTREG" value="¿Desea recibir un certificado?"/>
+                    <p:selectOneRadio id="txtCERTREG" value="#{registrarBean.model.CERTREG}" required="true" unselectable="true">
+                        <f:selectItem itemLabel="Si" itemValue="S" />
+                        <f:selectItem itemLabel="No" itemValue="N" />
+                        <p:message for="txtCERTREG"/>
+                    </p:selectOneRadio>
+                </h:panelGrid>
+            </p:panel>
+            <p:panelGrid columns="3" layout="grid" styleClass="showcase-text-align-center" 
+                         columnClasses="p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3">
+                <p:panel header="09 AGO. | Ciberseguridad">
+                    <p:panelGrid columns="2" style="align-items: stretch">
+                        <h:outputText value="Tema: "/>
+                        <h:outputText value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua" style="margin-bottom: -1px"/>
+                        <h:outputText value="Ponente: "/>
+                        <h:outputText value="Lorem ipsum dolor sit amet"/>
+
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel header="10 AGO. | Transformación Digital">
+                    <p:panelGrid columns="2" style="align-items: stretch">
+                        <h:outputText value="Tema: "/>
+                        <h:outputText value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua" style="margin-bottom: -1px"/>
+                        <h:outputText value="Ponente: "/>
+                        <h:outputText value="Lorem ipsum dolor sit amet"/>
+                    </p:panelGrid>
+                </p:panel>
+                <p:panel header="11 AGO. | Desarrollo de Software Empresarial">
+                    <p:panelGrid columns="2" style="align-items: stretch">
+                        <h:outputText value="Tema: "/>
+                        <h:outputText value="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua" style="margin-bottom: -1px"/>
+                        <h:outputText value="Ponente: "/>
+                        <h:outputText value="Lorem ipsum dolor sit amet"/>
+                    </p:panelGrid>
+                </p:panel>
+                <p:selectOneRadio id="txtcodconfA" value="#{registrarBean.modelRD.CODCONF}" unselectable="true">
+                    <f:selectItem itemLabel="Bloque 01" itemValue="1" />
+                    <f:selectItem itemLabel="Bloque 02" itemValue="3" />
+                    <f:selectItem itemLabel="Bloque 03" itemValue="5" />
+                </p:selectOneRadio>
+            </p:panelGrid>
+            <p:separator/>
+            <center>
+                <p:commandButton id="RegistrarParticipante"
+                                 value="Registrar"
+                                 actionListener="#{registrarBean.registrar()}"
+                                 validateClient="true"
+                                 update="RegPar">
+                    <p:message for="RegistrarParticipante"/>
+                </p:commandButton>
+            </center>
+        </h:form>
+    </h:body>
+</html>

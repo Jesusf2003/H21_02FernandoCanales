@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+    <h:head>
+        <title>Registrar participante</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <h:body>
+        <h:form>
+            <style type="text/css">
+                .imagebox a {
+                    margin-left: 15px;
+                }
+                panel .my-heading-row {
+                    background-color: brown;
+                    font-weight: bold;
+                }
+            </style>
+            <p:panelGrid columns="3" layout="grid" styleClass="showcase-text-align-center"
+                         columnClasses="p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3, p-col-12 p-md-6 p-lg-3">
+                <p:graphicImage name="images/LogoVGSoft.png" style="align-items: center"/>
+                <p:tabMenu activeIndex="#{param.i}">
+                    <p:menuitem value="Inicio" outcome="/ui/menu/tabMenu" icon="pi pi-fw pi-home" url="/H21_02_SW/faces/index.xhtml">
+                        <f:param name="i" value="0"/>
+                    </p:menuitem>
+                    <p:menuitem value="Participante" outcome="/ui/menu/tabMenu" icon="pi pi-fw pi-file"  url="/H21_02_SW/faces/vistas/ParticipanteVista.xhtml">
+                        <f:param name="i" value="1"/>
+                    </p:menuitem>
+                    <p:menuitem value="Registro" outcome="/ui/menu/tabMenu" icon="pi pi-fw pi-calendar" url="/H21_02_SW/faces/vistas/RegistroVista.xhtml">
+                        <f:param name="i" value="2"/>
+                    </p:menuitem>
+                </p:tabMenu>
+            </p:panelGrid>
+        </h:form>
+
+        <p:separator/>
+        <b>Cañete, </b><p:clock pattern="dd/MM/yyyy" mode="server"/> <b>Hora: </b><p:clock pattern="HH:mm:ss" mode="server"/>
+        <p:separator/>
+
+        <h:form id="RegistrarPar">
+            <p:growl widgetVar="msgs"/>
+
+            <p:panel id="pnlProd" header="Registro de Participantes"
+                     footer="Ver listado de participantes"
+                     styleClass="my-heading-row ui-fluid ui-grid-responsive">
+                <f:facet name="actions">
+                    <p:commandLink styleClass="ui-panel-titlebar-icon ui-corner-all ui-state-default">
+                        <h:outputText styleClass="ui-icon pi pi-question"/>
+                    </p:commandLink>
+                </f:facet>
+                <h:panelGrid columns="4" width="100%"
+                             style="border:0px none; background-color:transparent;"
+                             styleClass="customPanelGrid"
+                             columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4, p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4">
+
+                    <p:outputLabel for="txtNOMPAR" value="Nombres: " />
+                    <p:inputText id="txtNOMPAR" value="#{participanteBean.model.NOMPAR}"
+                                 required="true" maxlength="80"
+                                 requiredMessage="Falta nombre del participante" >
+                        <p:keyFilter regEx="/[a-zA-ZÀ-ú\\s\\' ]+/"/>
+                        <f:validateLength minimum="2" />
+                    </p:inputText>
+
+                    <p:outputLabel for="txtAPEPAR" value="Apellidos: " />
+                    <p:inputText id="txtAPEPAR" value="#{participanteBean.model.APEPAR}"
+                                 required="true" maxlength="80"
+                                 requiredMessage="Falta apellido del participante" >
+                        <p:keyFilter regEx="/[a-zA-ZÀ-ú\\s\\' ]+/"/>
+                        <f:validateLength minimum="2" />
+                    </p:inputText>
+
+                    <p:outputLabel for="txtEMAPAR" value="Correo: " />
+                    <p:inputText id="txtEMAPAR" value="#{participanteBean.model.EMAPAR}"
+                                 required="true" maxlength="150"
+                                 requiredMessage="Falta el correo del participante" >
+                        <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                    </p:inputText>
+
+                    <p:outputLabel for="txtDIRPAR" value="Procedencia: " />
+                    <p:inputText id="txtDIRPAR" value="#{participanteBean.model.LUGPROPAR}"
+                                 required="true" maxlength="90"
+                                 requiredMessage="Falta la dirección del participante" >
+                        <f:validateLength minimum="2" />
+                    </p:inputText>
+
+                    <p:outputLabel for="txtDNIPAR" value="DNI: " />
+                    <p:inputText id="txtDNIPAR" value="#{participanteBean.model.DNIPAR}"
+                                 required="true" maxlength="8"
+                                 requiredMessage="Falta Nº de DNI del participante" >
+                        <p:keyFilter regEx="/[0-9]/"/>
+                    </p:inputText>
+
+                    <p:outputLabel for="txtTIPPER" value="Tipo de participante: " />
+                    <p:selectOneMenu id="txtTIPPER" value="#{participanteBean.model.TIPPAR}"
+                                     required="true"
+                                     requiredMessage="Falta el tipo del participante" >
+                        <f:selectItem itemLabel="Seleccionar registro de participante"/>
+                        <f:selectItem itemLabel="Estudiante" itemValue="1"/>
+                        <f:selectItem itemLabel="Egresado" itemValue="2"/>
+                        <f:selectItem itemLabel="Público General" itemValue="3"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="txtCELPAR" value="Celular: " />
+                    <p:inputText id="txtCELPAR" value="#{participanteBean.model.CELPAR}"
+                                 required="true" maxlength="9"
+                                 requiredMessage="Falta Nº de celular del participante" >
+                        <p:keyFilter regEx="/[0-9]/"/>
+                    </p:inputText>
+
+                    <p:commandButton id="txtRegistrarPar"
+                                     value="Registrar"
+                                     class="ui-button-success"
+                                     icon="pi pi-user-plus"
+                                     actionListener="#{participanteBean.registrar()}"
+                                     update=":RegistrarPar, :tblParticipante"/>
+
+                    <p:commandButton id="txtModificarPar"
+                                     value="Guardar"
+                                     actionListener="#{participanteBean.modificar()}"
+                                     update=":RegistrarPar, :tblParticipante"/>
+
+
+
+                </h:panelGrid>
+            </p:panel>
+
+            <p:blockUI block="RegistrarPar" trigger="txtRegistrarPar"/>
+        </h:form>
+        <h:form id="tblParticipante">
+            <p:commandButton value="Reporte Excel" styleClass="p-mr-2 p-mb-2">
+                <p:dataExporter type="xls" target="TablaPar" fileName="Reporte de participantes"/>
+            </p:commandButton>
+
+            <p:commandButton value="Reporte PDF" styleClass="p-mr-2 p-mb-2">
+                <p:dataExporter type="pdf" target="TablaPar" fileName="Reporte de participantes"/>
+            </p:commandButton>
+
+            <div class="card">
+                <h2><p:outputLabel value="Desea ver reporte de: "/></h2>
+
+                <p:commandButton value="Estudiante" onclick="this.form.target = '_blank'" styleClass="rounded-button ui-button-secondary"
+                                 ajax="false" title="Reporte de estudiantes" icon="pi pi-print" actionListener="#{participanteBean.verReportePDFEST()}"/>
+                <p:commandButton value="Egresados" onclick="this.form.target = '_blank'" styleClass="rounded-button ui-button-secondary"
+                                 ajax="false" title="Reporte de egresados" icon="pi pi-print" actionListener="#{participanteBean.verReportePDFEGR()}"/>
+                <p:commandButton value="Público General" onclick="this.form.target = '_blank'" styleClass="rounded-button ui-button-secondary"
+                                 ajax="false" title="Reporte de público general" icon="pi pi-print" actionListener="#{participanteBean.verReportePDFPUB()}"/>
+            </div>
+            <p:dataTable value="#{participanteBean.listPar}"
+                         var="dtParticipante" id="TablaPar"
+                         rows="10" paginator="true"
+                         rowsPerPageTemplate="5, 10">
+                <p:column headerText="Participante" sortBy="#{dtParticipante.NOMPAR}" filterBy="#{dtParticipante.NOMPAR}">
+                    <p:outputLabel value="#{dtParticipante.APEPAR}, #{dtParticipante.NOMPAR}"/>
+                </p:column>
+                <p:column headerText="DNI" sortBy="#{dtParticipante.DNIPAR}" filterBy="#{dtParticipante.DNIPAR}">
+                    <p:outputLabel value="#{dtParticipante.DNIPAR}"/>
+                </p:column>
+                <p:column headerText="Correo" sortBy="#{dtParticipante.EMAPAR}" filterBy="#{dtParticipante.EMAPAR}">
+                    <p:outputLabel value="#{dtParticipante.EMAPAR}"/>
+                </p:column>
+                <p:column headerText="Celular" sortBy="#{dtParticipante.CELPAR}" filterBy="#{dtParticipante.CELPAR}">
+                    <p:outputLabel value="#{dtParticipante.CELPAR}"/>
+                </p:column>
+                <p:column headerText="Procedencia" sortBy="#{dtParticipante.LUGPROPAR}" filterBy="#{dtParticipante.LUGPROPAR}">
+                    <p:outputLabel value="#{dtParticipante.LUGPROPAR}"/>
+                </p:column>
+                <p:column headerText="Acciones">
+                    <p:commandButton id="ModPar" actionListener="#{participanteBean.datos(dtParticipante)}" type="button" title="Modificar" icon="pi pi-user-edit" styleClass="ui-button-warning p-mr-2" update=":RegistrarPar"/>
+                    <p:commandButton id="EliPar" icon="pi pi-trash" styleClass="ui-button-danger p-mr-2" oncomplete="PF('dlgEliminar').show();"  update=":tblParticipante" >
+                        <f:setPropertyActionListener value="#{dtParticipante}" target="#{participanteBean.model}" />
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+        <p:dialog id="dlgEliminarPar" header="Eliminar Datos" widgetVar="dlgEliminar" showEffect="explode"
+                  hideEffect="explode" modal="true">
+            <h:form id="formEliminar" style="font-size: 12px;">
+                <h:outputText value="Desea eliminar este registro?"/>
+                <p:commandButton value="Si" actionListener="#{participanteBean.eliminar()}"
+                                 update="tblParticipante" oncomplete="PF('dlgEliminar').hide();"/>
+                <p:commandButton value="No" onclick="PF('dlgEliminar').hide();"/>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>

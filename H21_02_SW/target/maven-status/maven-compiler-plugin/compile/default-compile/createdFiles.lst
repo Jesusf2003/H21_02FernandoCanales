@@ -1,0 +1,13 @@
+model\RegistroDetalleModel.class
+model\ConferenciaModel.class
+model\TemaModelo.class
+model\PonenteModel.class
+model\ParticipanteModel.class
+model\RegistroModel.class
+dao\RegistroImpl.class
+bean\ParticipanteControl.class
+dao\ConferenciaImpl.class
+dao\Conexion.class
+dao\ParticipanteImpl.class
+servicios\ReporteParticipante.class
+bean\RegistrarControl.class
